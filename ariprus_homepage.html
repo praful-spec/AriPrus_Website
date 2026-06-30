@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AriPrus — Industrial Intelligence Platform | AriLinc™</title>
+<meta name="description" content="AriPrus delivers AI-driven insights and autonomous recommendations that help industrial organizations improve reliability, efficiency and profitability."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --navy:       #0A1628;
+  --navy-mid:   #112240;
+  --navy-light: #1C3461;
+  --blue:       #1565C0;
+  --blue-light: #1976D2;
+  --cyan:       #00B4D8;
+  --cyan-light: #48CAE4;
+  --white:      #FFFFFF;
+  --off-white:  #F7F9FC;
+  --grey-50:    #F0F4F8;
+  --grey-200:   #CBD5E0;
+  --grey-500:   #718096;
+  --grey-700:   #2D3748;
+  --text:       #1A202C;
+  --text-muted: #4A5568;
+  --border:     #E2E8F0;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg:  0 12px 40px rgba(0,0,0,.14);
+  --radius:     8px;
+  --radius-lg:  14px;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* ── UTILITY ────────────────────────────────────────────────── */
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:500}
+.section-title{font-family:'Sora',sans-serif;font-size:clamp(1.75rem,3vw,2.5rem);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:12px}
+.section-sub{font-size:1.05rem;color:var(--text-muted);max-width:580px;line-height:1.75}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue);color:#fff;font-family:'Inter',sans-serif;font-size:.875rem;font-weight:600;border-radius:6px;border:none;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s}
+.btn-primary:hover{background:var(--blue-light);transform:translateY(-1px);box-shadow:0 6px 20px rgba(21,101,192,.3)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:transparent;color:var(--navy);font-family:'Inter',sans-serif;font-size:.875rem;font-weight:600;border-radius:6px;border:1.5px solid var(--border);cursor:pointer;transition:border-color .2s,color .2s,transform .15s}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
+.tag{display:inline-block;padding:4px 12px;background:rgba(21,101,192,.08);color:var(--blue);font-size:.72rem;font-weight:600;letter-spacing:.06em;border-radius:100px;border:1px solid rgba(21,101,192,.18)}
+
+/* ── NAV ────────────────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:68px;display:flex;align-items:center}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;margin:0 auto;padding:0 32px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-mark{width:36px;height:36px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-logo-text{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:700;color:var(--navy);letter-spacing:-.01em}
+.nav-logo-text span{color:var(--blue)}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:.85rem;font-weight:500;color:var(--text-muted);transition:color .2s}
+.nav-links a:hover{color:var(--navy)}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.nav-cta a{font-size:.82rem;font-weight:600}
+.nav-demo{padding:9px 20px;background:var(--blue);color:#fff;border-radius:6px;font-size:.82rem;font-weight:600;transition:background .2s}
+.nav-demo:hover{background:var(--blue-light)}
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.hero{background:var(--navy);padding:148px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;right:0;width:55%;height:100%;background:linear-gradient(135deg,rgba(0,180,216,.06) 0%,rgba(21,101,192,.12) 100%);clip-path:polygon(8% 0%,100% 0%,100% 100%,0% 100%)}
+.hero::after{content:'';position:absolute;top:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,180,216,.08) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.25);border-radius:100px;margin-bottom:24px}
+.hero-badge-dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+.hero-badge span{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+.hero h1{font-family:'Sora',sans-serif;font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:800;color:#fff;line-height:1.12;letter-spacing:-.02em;margin-bottom:20px}
+.hero h1 em{color:var(--cyan);font-style:normal}
+.hero-sub{font-size:1.08rem;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:36px;max-width:480px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.hero-actions .btn-primary{background:var(--cyan);color:var(--navy)}
+.hero-actions .btn-primary:hover{background:var(--cyan-light)}
+.hero-actions .btn-outline{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.25)}
+.hero-actions .btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero-proof{display:flex;gap:24px;flex-wrap:wrap}
+.hero-proof-item{display:flex;flex-direction:column}
+.hero-proof-item strong{font-family:'Sora',sans-serif;font-size:1.6rem;font-weight:700;color:#fff;line-height:1}
+.hero-proof-item span{font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.04em;margin-top:3px}
+.hero-proof-divider{width:1px;background:rgba(255,255,255,.12);align-self:stretch}
+
+/* Dashboard card */
+.hero-visual{position:relative}
+.dashboard-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-lg);padding:24px;backdrop-filter:blur(10px)}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.dash-title{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.1em}
+.dash-live{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--cyan)}
+.dash-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 1.5s ease-in-out infinite}
+.dash-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.dash-metric{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:14px 12px}
+.dash-metric-val{font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;line-height:1}
+.dash-metric-val.good{color:#4ADE80}
+.dash-metric-val.warn{color:#FBBF24}
+.dash-metric-lbl{font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;letter-spacing:.04em}
+.dash-chart{height:80px;position:relative;overflow:hidden}
+.dash-chart-bg{position:absolute;inset:0;display:flex;align-items:flex-end;gap:3px;padding:0 2px}
+.bar{flex:1;border-radius:3px 3px 0 0;background:rgba(0,180,216,.25);position:relative;overflow:hidden}
+.bar::after{content:'';position:absolute;bottom:0;left:0;right:0;background:var(--cyan);border-radius:3px 3px 0 0;animation:barGrow .8s ease-out forwards}
+@keyframes barGrow{from{height:0}to{height:var(--h)}}
+.dash-alert{margin-top:16px;padding:10px 14px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:6px;display:flex;align-items:center;gap:10px}
+.dash-alert-dot{width:8px;height:8px;border-radius:50%;background:#4ADE80;flex-shrink:0}
+.dash-alert-text{font-size:.75rem;color:rgba(255,255,255,.65)}
+.dash-alert-text strong{color:rgba(255,255,255,.9)}
+
+/* ── LOGOS ──────────────────────────────────────────────────── */
+.logos-section{padding:40px 0;border-bottom:1px solid var(--border)}
+.logos-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-500);text-align:center;margin-bottom:24px}
+.logos-track-wrap{overflow:hidden;position:relative}
+.logos-track-wrap::before,.logos-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.logos-track-wrap::before{left:0;background:linear-gradient(to right,var(--white),transparent)}
+.logos-track-wrap::after{right:0;background:linear-gradient(to left,var(--white),transparent)}
+.logos-track{display:flex;gap:48px;align-items:center;width:max-content;animation:scroll 28s linear infinite}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.logos-track:hover{animation-play-state:paused}
+.logo-item{height:32px;object-fit:contain;filter:grayscale(1) opacity(.45);transition:filter .3s;flex-shrink:0}
+.logo-item:hover{filter:grayscale(0) opacity(1)}
+.logo-text{font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:var(--grey-500);white-space:nowrap;padding:6px 16px;border:1px solid var(--border);border-radius:6px}
+
+/* ── IMPACT STATS ───────────────────────────────────────────── */
+.impact{background:var(--navy);padding:72px 0}
+.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-lg);overflow:hidden}
+.impact-item{padding:40px 32px;background:var(--navy-mid);text-align:center;transition:background .3s}
+.impact-item:hover{background:var(--navy-light)}
+.impact-num{font-family:'Sora',sans-serif;font-size:3rem;font-weight:800;color:#fff;line-height:1;letter-spacing:-.03em}
+.impact-num span{color:var(--cyan)}
+.impact-label{font-size:.82rem;color:rgba(255,255,255,.45);margin-top:8px;line-height:1.5}
+.impact-label strong{display:block;color:rgba(255,255,255,.8);font-weight:600;margin-bottom:2px}
+
+/* ── PLATFORM ───────────────────────────────────────────────── */
+.platform{padding:96px 0;background:var(--off-white)}
+.platform-intro{text-align:center;margin-bottom:64px}
+.platform-intro .section-sub{margin:0 auto}
+.platform-tabs{display:flex;gap:0;background:#fff;border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:40px;overflow-x:auto}
+.ptab{padding:10px 20px;border-radius:7px;font-size:.82rem;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:all .2s;border:none;background:none}
+.ptab.active{background:var(--navy);color:#fff}
+.platform-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));opacity:0;transition:opacity .3s}
+.pcard:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.pcard:hover::before{opacity:1}
+.pcard-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,rgba(21,101,192,.1),rgba(0,180,216,.12));display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.pcard-icon svg{width:22px;height:22px;stroke:var(--blue)}
+.pcard h3{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.pcard p{font-size:.875rem;color:var(--text-muted);line-height:1.7}
+.pcard-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.pcard-tag{font-size:.68rem;padding:3px 10px;border-radius:100px;background:var(--grey-50);color:var(--text-muted);border:1px solid var(--border)}
+
+/* ── SOLUTIONS ──────────────────────────────────────────────── */
+.solutions{padding:96px 0;background:#fff}
+.solutions-intro{margin-bottom:56px}
+.solutions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sol-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;transition:all .25s;cursor:pointer;position:relative}
+.sol-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(21,101,192,.1);transform:translateY(-2px)}
+.sol-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:1.3rem}
+.sol-card h3{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.sol-card p{font-size:.82rem;color:var(--text-muted);line-height:1.65}
+.sol-arrow{position:absolute;bottom:20px;right:20px;width:28px;height:28px;border-radius:50%;background:var(--grey-50);display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+.sol-card:hover .sol-arrow{background:var(--blue);transform:translateX(2px)}
+.sol-card:hover .sol-arrow svg{stroke:#fff}
+.sol-arrow svg{width:14px;height:14px;stroke:var(--grey-500)}
+
+/* ── PILOT HIGHLIGHT ────────────────────────────────────────── */
+.pilot{padding:80px 0;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%)}
+.pilot-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.pilot-label{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);border-radius:100px;margin-bottom:20px}
+.pilot-label span{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#4ADE80}
+.pilot h2{font-family:'Sora',sans-serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;color:#fff;line-height:1.25;margin-bottom:16px}
+.pilot p{font-size:.95rem;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:28px}
+.pilot-specs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pilot-spec{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:16px}
+.pilot-spec-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:4px}
+.pilot-spec-val{font-size:.9rem;font-weight:600;color:#fff}
+
+/* ── TESTIMONIALS ───────────────────────────────────────────── */
+.testimonials{padding:96px 0;background:var(--off-white)}
+.testimonials-intro{text-align:center;margin-bottom:56px}
+.testimonials-intro .section-sub{margin:12px auto 0}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;position:relative}
+.tcard::before{content:'"';position:absolute;top:16px;right:24px;font-family:'Sora',sans-serif;font-size:5rem;line-height:1;color:var(--grey-50);font-weight:800}
+.tcard-text{font-size:.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:24px;position:relative;z-index:1}
+.tcard-author{display:flex;align-items:center;gap:12px}
+.tcard-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:.85rem;font-weight:700;color:#fff;flex-shrink:0}
+.tcard-name{font-weight:600;font-size:.875rem;color:var(--navy)}
+.tcard-role{font-size:.78rem;color:var(--text-muted)}
+
+/* ── AGENTIC AI ─────────────────────────────────────────────── */
+.agentic{padding:96px 0;background:#fff}
+.agentic-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.agentic-visual{position:relative}
+.agent-card{background:var(--navy);border-radius:var(--radius-lg);padding:28px;position:relative;overflow:hidden}
+.agent-card::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(0,180,216,.15),transparent 70%)}
+.agent-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.agent-row:last-child{border-bottom:none}
+.agent-role{font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:3px 8px;border-radius:4px;flex-shrink:0;margin-top:2px}
+.agent-role.orchestrator{background:rgba(0,180,216,.15);color:var(--cyan)}
+.agent-role.analyst{background:rgba(21,101,192,.2);color:#93C5FD}
+.agent-role.action{background:rgba(74,222,128,.12);color:#4ADE80}
+.agent-msg{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6}
+.agent-msg strong{color:#fff}
+.agentic-content .eyebrow{margin-bottom:12px}
+.agentic-content .section-title{margin-bottom:16px}
+.agentic-content .section-sub{margin-bottom:32px}
+.agentic-list{display:flex;flex-direction:column;gap:16px}
+.agentic-item{display:flex;gap:14px;align-items:flex-start}
+.agentic-item-dot{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.agentic-item-dot svg{width:10px;height:10px;stroke:#fff;stroke-width:2.5}
+.agentic-item-text h4{font-weight:600;font-size:.9rem;color:var(--navy);margin-bottom:3px}
+.agentic-item-text p{font-size:.82rem;color:var(--text-muted);line-height:1.65}
+
+/* ── CTA ────────────────────────────────────────────────────── */
+.cta-section{padding:80px 0;background:linear-gradient(135deg,var(--blue) 0%,#0D47A1 100%);text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.cta-section h2{font-family:'Sora',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:#fff;margin-bottom:14px;position:relative}
+.cta-section p{font-size:1rem;color:rgba(255,255,255,.72);max-width:520px;margin:0 auto 36px;line-height:1.75;position:relative}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+.cta-btns .btn-white{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:#fff;color:var(--blue);border-radius:6px;font-weight:700;font-size:.9rem;transition:transform .15s,box-shadow .2s}
+.cta-btns .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.cta-btns .btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:6px;font-weight:600;font-size:.9rem;transition:border-color .2s}
+.cta-btns .btn-ghost:hover{border-color:#fff}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+footer{background:var(--navy);color:rgba(255,255,255,.45);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand-desc{font-size:.82rem;line-height:1.8;color:rgba(255,255,255,.35);margin-top:14px;max-width:260px}
+.footer-col h4{font-family:'Sora',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:18px}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{font-size:.82rem;color:rgba(255,255,255,.4);transition:color .2s}
+.footer-col ul li a:hover{color:var(--cyan)}
+.footer-address{font-size:.78rem;color:rgba(255,255,255,.3);line-height:1.9;margin-top:8px}
+.footer-address strong{color:rgba(255,255,255,.55);display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;margin-top:14px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;gap:12px}
+.footer-bottom-text{font-size:.75rem;color:rgba(255,255,255,.25)}
+.footer-socials{display:flex;gap:12px}
+.social-btn{width:32px;height:32px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;transition:background .2s;border:1px solid rgba(255,255,255,.08)}
+.social-btn:hover{background:rgba(255,255,255,.12)}
+.social-btn svg{width:14px;height:14px;fill:rgba(255,255,255,.5)}
+.footer-logo-nav{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.footer-logo-mark{width:30px;height:30px;background:rgba(255,255,255,.08);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.footer-logo-name{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:#fff}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:900px){
+  .hero-grid,.agentic-inner,.pilot-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .platform-cards,.solutions-grid,.tgrid{grid-template-columns:1fr 1fr}
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:600px){
+  .container{padding:0 20px}
+  .platform-cards,.solutions-grid,.tgrid{grid-template-columns:1fr}
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .hero{padding:120px 0 60px}
+  .hero h1{font-size:2.2rem}
+}
+
+/* ── SCROLL ANIMATIONS ──────────────────────────────────────── */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://ariprus.com" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="3" fill="#00B4D8"/>
+          <path d="M10 2v3M10 15v3M2 10h3M15 10h3" stroke="#00B4D8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M4.93 4.93l2.12 2.12M12.95 12.95l2.12 2.12M4.93 15.07l2.12-2.12M12.95 7.05l2.12-2.12" stroke="rgba(255,255,255,.3)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Ari<span>Prus</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="https://ariprus.com/industrial-intelligence-platform/">AriLinc™</a>
+      <a href="https://ariprus.com/chemicals/">Solutions</a>
+      <a href="https://ariprus.com/case-study/">Case Studies</a>
+      <a href="https://ariprus.com/company/about-us/">Company</a>
+      <a href="https://ariprus.com/pricing/">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="https://ariprus.com/category/news-events/" class="nav-links" style="display:block;font-size:.82rem;font-weight:500;color:var(--text-muted)">Blog</a>
+      <a href="https://ariprus.com/contact-us/" class="nav-demo">Request Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content fade-up">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          <span>Now live — Pidilite Polymerization Intelligence Pilot</span>
+        </div>
+        <h1>Industrial <em>Intelligence</em><br/>That Delivers Action</h1>
+        <p class="hero-sub">AriPrus combines deep industrial domain expertise with Agentic AI to move your operations from reactive firefighting to autonomous, data-driven decision-making.</p>
+        <div class="hero-actions">
+          <a href="https://ariprus.com/contact-us/" class="btn-primary">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Request a Pilot
+          </a>
+          <a href="https://www.youtube.com/watch?v=f5YHH2TdWXo" class="btn-outline" target="_blank" rel="noopener">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            Watch AriLinc™ Demo
+          </a>
+        </div>
+        <div class="hero-proof">
+          <div class="hero-proof-item">
+            <strong>30%</strong>
+            <span>Downtime Reduction</span>
+          </div>
+          <div class="hero-proof-divider"></div>
+          <div class="hero-proof-item">
+            <strong>20%</strong>
+            <span>Maintenance Savings</span>
+          </div>
+          <div class="hero-proof-divider"></div>
+          <div class="hero-proof-item">
+            <strong>14+</strong>
+            <span>Enterprise Clients</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Dashboard Widget -->
+      <div class="hero-visual fade-up" style="transition-delay:.2s">
+        <div class="dashboard-card">
+          <div class="dash-header">
+            <span class="dash-title">ARILINC™ · PROCESS INTELLIGENCE</span>
+            <span class="dash-live">LIVE</span>
+          </div>
+          <div class="dash-metrics">
+            <div class="dash-metric">
+              <div class="dash-metric-val good">94.2%</div>
+              <div class="dash-metric-lbl">OEE Score</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-val warn">62 cP</div>
+              <div class="dash-metric-lbl">Viscosity</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-val good">98.1%</div>
+              <div class="dash-metric-lbl">Solid Content</div>
+            </div>
+          </div>
+          <div class="dash-chart">
+            <div class="dash-chart-bg">
+              <div class="bar" style="--h:45%"></div>
+              <div class="bar" style="--h:62%"></div>
+              <div class="bar" style="--h:55%"></div>
+              <div class="bar" style="--h:78%"></div>
+              <div class="bar" style="--h:70%"></div>
+              <div class="bar" style="--h:88%"></div>
+              <div class="bar" style="--h:75%"></div>
+              <div class="bar" style="--h:92%"></div>
+              <div class="bar" style="--h:85%"></div>
+              <div class="bar" style="--h:94%"></div>
+              <div class="bar" style="--h:91%"></div>
+              <div class="bar" style="--h:96%"></div>
+            </div>
+          </div>
+          <div class="dash-alert">
+            <div class="dash-alert-dot"></div>
+            <div class="dash-alert-text"><strong>Agentic AI Recommendation:</strong> Viscosity trending above threshold — reduce monomer feed rate by 3.2% to maintain product spec.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUSTED BY ─────────────────────────────────────────── -->
+<section class="logos-section">
+  <div class="container">
+    <p class="logos-label">Trusted by industry leaders across India & North America</p>
+    <div class="logos-track-wrap">
+      <div class="logos-track">
+        <span class="logo-text">Tata Projects</span>
+        <span class="logo-text">Pidilite</span>
+        <span class="logo-text">Praj HiPurity</span>
+        <span class="logo-text">Escorts Kubota</span>
+        <span class="logo-text">CDW</span>
+        <span class="logo-text">Softura</span>
+        <span class="logo-text">Faclon</span>
+        <span class="logo-text">Global Pumps</span>
+        <span class="logo-text">Dhake Industries</span>
+        <span class="logo-text">Infintrix</span>
+        <!-- duplicate for seamless loop -->
+        <span class="logo-text">Tata Projects</span>
+        <span class="logo-text">Pidilite</span>
+        <span class="logo-text">Praj HiPurity</span>
+        <span class="logo-text">Escorts Kubota</span>
+        <span class="logo-text">CDW</span>
+        <span class="logo-text">Softura</span>
+        <span class="logo-text">Faclon</span>
+        <span class="logo-text">Global Pumps</span>
+        <span class="logo-text">Dhake Industries</span>
+        <span class="logo-text">Infintrix</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IMPACT STATS ──────────────────────────────────────── -->
+<section class="impact">
+  <div class="container">
+    <div class="impact-grid fade-up">
+      <div class="impact-item">
+        <div class="impact-num"><span id="c1">0</span>%</div>
+        <div class="impact-label"><strong>Downtime Reduction</strong>Across asset-intensive operations</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-num"><span id="c2">0</span>%</div>
+        <div class="impact-label"><strong>Maintenance Cost Savings</strong>Via predictive & condition-based AI</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-num"><span id="c3">0</span>%</div>
+        <div class="impact-label"><strong>Energy Efficiency Gain</strong>Through process optimization</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-num"><span id="c4">0</span>+</div>
+        <div class="impact-label"><strong>Enterprise Deployments</strong>Across 7 industries globally</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLATFORM ──────────────────────────────────────────── -->
+<section class="platform">
+  <div class="container">
+    <div class="platform-intro fade-up">
+      <p class="eyebrow">AriLinc™ Platform</p>
+      <h2 class="section-title">Built for Industrial Reality.<br/>Designed for Outcomes.</h2>
+      <p class="section-sub">Most platforms stop at dashboards. AriLinc™ goes further — from data ingestion to autonomous recommendation, closing the loop between insight and action.</p>
+    </div>
+    <div class="platform-cards fade-up">
+      <div class="pcard">
+        <div class="pcard-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <h3>Unified Data Foundation</h3>
+        <p>Connect sensors, PLCs, SCADA, historians, ERP, and CMMS into a single contextual data layer — no data silos.</p>
+        <div class="pcard-tags">
+          <span class="pcard-tag">SCADA / OPC-UA</span>
+          <span class="pcard-tag">SAP Integration</span>
+          <span class="pcard-tag">Edge IoT</span>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <h3>AI-Driven Intelligence</h3>
+        <p>Predictive analytics, anomaly detection, degradation modeling, and health index scoring — deployed on your domain data.</p>
+        <div class="pcard-tags">
+          <span class="pcard-tag">Anomaly Detection</span>
+          <span class="pcard-tag">RUL Estimation</span>
+          <span class="pcard-tag">Root Cause AI</span>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3>Agentic Recommendations</h3>
+        <p>Autonomous AI agents that don't just detect issues — they reason, plan, and recommend corrective actions in plain language.</p>
+        <div class="pcard-tags">
+          <span class="pcard-tag">LLM-Powered</span>
+          <span class="pcard-tag">Multi-Agent</span>
+          <span class="pcard-tag">Action Loops</span>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3>Process Quality Intelligence</h3>
+        <p>Real-time in-process quality monitoring — viscosity, solid content, pH, temperature — reducing lab dependency and batch failures.</p>
+        <div class="pcard-tags">
+          <span class="pcard-tag">In-process QC</span>
+          <span class="pcard-tag">Soft Sensors</span>
+          <span class="pcard-tag">SPC / SQC</span>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3>Asset Reliability & Maintenance</h3>
+        <p>Move from reactive to predictive maintenance with health indices, failure-mode modeling, and work-order automation via SAP PM.</p>
+        <div class="pcard-tags">
+          <span class="pcard-tag">CBM</span>
+          <span class="pcard-tag">SAP PM</span>
+          <span class="pcard-tag">FMEA AI</span>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+        </div>
+        <h3>Enterprise Integrations</h3>
+        <p>Pre-built connectors for SAP, MES, CMMS, cloud platforms, and legacy historians — deploy in weeks, not months.</p>
+        <div class="pcard-tags">
+          <span class="pcard-tag">SAP EAM</span>
+          <span class="pcard-tag">Azure / AWS</span>
+          <span class="pcard-tag">MES / MOM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PIDILITE PILOT HIGHLIGHT ──────────────────────────── -->
+<section class="pilot">
+  <div class="container">
+    <div class="pilot-inner">
+      <div class="fade-up">
+        <div class="pilot-label">
+          <span>🟢 &nbsp;Live Pilot · June 2026</span>
+        </div>
+        <h2>Pidilite Polymerization Process Intelligence</h2>
+        <p>AriPrus has been selected by Pidilite Industries Ltd — India's leading adhesive manufacturer — to deploy in-process quality intelligence for their polymerization lines. This pilot measures real-time Viscosity and Solid Content %, replacing periodic lab sampling with continuous AI-driven quality assurance.</p>
+        <a href="https://ariprus.com/case-study/" class="btn-primary" style="background:var(--cyan);color:var(--navy)">
+          View Case Studies
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="pilot-specs fade-up" style="transition-delay:.2s">
+        <div class="pilot-spec">
+          <div class="pilot-spec-label">Client</div>
+          <div class="pilot-spec-val">Pidilite Industries Ltd, Mumbai</div>
+        </div>
+        <div class="pilot-spec">
+          <div class="pilot-spec-label">Process</div>
+          <div class="pilot-spec-val">Polymerization Intelligence</div>
+        </div>
+        <div class="pilot-spec">
+          <div class="pilot-spec-label">Parameters Monitored</div>
+          <div class="pilot-spec-val">Viscosity · Solid Content %</div>
+        </div>
+        <div class="pilot-spec">
+          <div class="pilot-spec-label">Status</div>
+          <div class="pilot-spec-val" style="color:#4ADE80">✓ Confirmed · PO by Jul 10, 2026</div>
+        </div>
+        <div class="pilot-spec" style="grid-column:1/-1">
+          <div class="pilot-spec-label">Value Delivered</div>
+          <div class="pilot-spec-val">Continuous in-process QC · Reduced lab sampling · Real-time batch control</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOLUTIONS ─────────────────────────────────────────── -->
+<section class="solutions">
+  <div class="container">
+    <div class="solutions-intro fade-up">
+      <p class="eyebrow">Industry Solutions</p>
+      <h2 class="section-title">Purpose-Built for Every Industry</h2>
+      <p class="section-sub">Deep domain AI — not generic analytics. Each solution is engineered around the specific processes, failure modes, and quality parameters of your industry.</p>
+    </div>
+    <div class="solutions-grid fade-up">
+      <a href="https://ariprus.com/chemicals/" class="sol-card">
+        <div class="sol-icon" style="background:rgba(21,101,192,.08)">⚗️</div>
+        <h3>Chemicals & Polymers</h3>
+        <p>Polymerization intelligence, batch quality monitoring, viscosity & solid content prediction, yield optimization.</p>
+        <div class="sol-arrow"><svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="https://ariprus.com/food-beverages/" class="sol-card">
+        <div class="sol-icon" style="background:rgba(0,180,216,.08)">🌾</div>
+        <h3>Food & Beverages</h3>
+        <p>CIP intelligence, grains milling optimization, quality consistency, and regulatory compliance automation.</p>
+        <div class="sol-arrow"><svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="https://ariprus.com/pharma-life-sciences/" class="sol-card">
+        <div class="sol-icon" style="background:rgba(74,222,128,.08)">💊</div>
+        <h3>Pharma & Life Sciences</h3>
+        <p>FDA-aligned audit intelligence, process analytical technology, deviation detection and compliance automation.</p>
+        <div class="sol-arrow"><svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="https://ariprus.com/automotive/" class="sol-card">
+        <div class="sol-icon" style="background:rgba(251,191,36,.08)">🔋</div>
+        <h3>Automotive & Battery</h3>
+        <p>Battery manufacturing intelligence, asset reliability, predictive maintenance for production lines.</p>
+        <div class="sol-arrow"><svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="https://ariprus.com/building-materials/" class="sol-card">
+        <div class="sol-icon" style="background:rgba(168,85,247,.08)">🏗️</div>
+        <h3>Building Materials</h3>
+        <p>Tiles & ceramics process monitoring, kiln optimization, product quality intelligence and throughput analytics.</p>
+        <div class="sol-arrow"><svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+      <a href="https://ariprus.com/metals-mining/" class="sol-card">
+        <div class="sol-icon" style="background:rgba(239,68,68,.08)">⚙️</div>
+        <h3>Metals, Mining & Energy</h3>
+        <p>Steel manufacturing intelligence, asset health monitoring, energy optimization and utility analytics.</p>
+        <div class="sol-arrow"><svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── AGENTIC AI ─────────────────────────────────────────── -->
+<section class="agentic">
+  <div class="container">
+    <div class="agentic-inner">
+      <div class="agentic-visual fade-up">
+        <div class="agent-card">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.1em;margin-bottom:16px">ARILINC™ AGENTIC AI · LIVE SESSION</div>
+          <div class="agent-row">
+            <span class="agent-role orchestrator">ORCHESTRATOR</span>
+            <div class="agent-msg">Analyzing polymerization batch PID-2024-06. <strong>Viscosity deviation detected</strong> — initiating root cause analysis across 3 sub-agents.</div>
+          </div>
+          <div class="agent-row">
+            <span class="agent-role analyst">PROCESS ANALYST</span>
+            <div class="agent-msg">Monomer feed rate increased by 4.1% at T-minus 18 min. Reactor temperature drifted +2.3°C above setpoint. Correlation confidence: <strong>94.7%</strong>.</div>
+          </div>
+          <div class="agent-row">
+            <span class="agent-role analyst">QUALITY AGENT</span>
+            <div class="agent-msg">Projected solid content at batch end: <strong>61.2%</strong> vs. spec 63–65%. Off-spec risk if no intervention within 12 minutes.</div>
+          </div>
+          <div class="agent-row">
+            <span class="agent-role action">ACTION AGENT</span>
+            <div class="agent-msg"><strong>Recommendation:</strong> Reduce monomer feed rate by 3.2%. Lower jacket cooling temp by 1.5°C. Re-sample viscosity in 8 min. Estimated recovery: ✓ on-spec.</div>
+          </div>
+        </div>
+      </div>
+      <div class="agentic-content fade-up" style="transition-delay:.2s">
+        <p class="eyebrow" style="margin-bottom:12px">Agentic AI</p>
+        <h2 class="section-title">From Insight to Action — Autonomously</h2>
+        <p class="section-sub">AriLinc™'s multi-agent AI doesn't just surface alerts. It reasons across your process data, identifies root causes, and recommends specific corrective actions — in plain language your operators can act on immediately.</p>
+        <div class="agentic-list" style="margin-top:28px">
+          <div class="agentic-item">
+            <div class="agentic-item-dot">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="agentic-item-text">
+              <h4>Multi-Agent Reasoning</h4>
+              <p>Orchestrator + specialist agents collaborate on complex process deviations — just like your best engineering team, available 24/7.</p>
+            </div>
+          </div>
+          <div class="agentic-item">
+            <div class="agentic-item-dot">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="agentic-item-text">
+              <h4>Natural Language Recommendations</h4>
+              <p>Actions delivered in operator-friendly language — no data science training required to act on AI insights.</p>
+            </div>
+          </div>
+          <div class="agentic-item">
+            <div class="agentic-item-dot">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="agentic-item-text">
+              <h4>Closed-Loop Action</h4>
+              <p>Connect recommendations back to SCADA, SAP PM work orders, or operator consoles — closing the loop automatically.</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:32px">
+          <a href="https://ariprus.com/agentic-ai/" class="btn-primary">Explore Agentic AI →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────────────────── -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials-intro fade-up">
+      <p class="eyebrow">Customer Voice</p>
+      <h2 class="section-title">Trusted by Operations Leaders</h2>
+      <p class="section-sub">Hear from the COOs, DGMs, and plant managers who've transformed their operations with AriPrus.</p>
+    </div>
+    <div class="tgrid fade-up">
+      <div class="tcard">
+        <p class="tcard-text">"AriPrus enabled real-time operational visibility across our plants, helping us reduce downtime and improve asset utilization significantly. Their domain depth set them apart."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">TC</div>
+          <div>
+            <div class="tcard-name">T. Cherian</div>
+            <div class="tcard-role">COO, Tata Projects</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <p class="tcard-text">"AI-driven insights from AriPrus accelerated our digital transformation journey. The platform helped us move from reactive operations to predictive decision-making within months."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">SV</div>
+          <div>
+            <div class="tcard-name">Sanjay Verma</div>
+            <div class="tcard-role">DGM, Escorts Kubota Ltd</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <p class="tcard-text">"AriPrus brought strong domain understanding combined with a scalable IIoT architecture. Their approach helped us standardize data and unlock actionable insights across operations."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">TB</div>
+          <div>
+            <div class="tcard-name">Tarang B.</div>
+            <div class="tcard-role">DGM, AEL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Move Beyond Dashboards?</h2>
+    <p>Start with a focused 6–8 week pilot on your highest-priority process. See measurable ROI before full deployment.</p>
+    <div class="cta-btns">
+      <a href="https://ariprus.com/contact-us/" class="btn-white">
+        Request a Pilot Program
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://www.youtube.com/watch?v=f5YHH2TdWXo" class="btn-ghost" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        Watch Platform Demo
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-nav">
+          <div class="footer-logo-mark">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="3" fill="#00B4D8"/>
+              <path d="M10 2v3M10 15v3M2 10h3M15 10h3" stroke="#00B4D8" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="footer-logo-name">AriPrus</span>
+        </div>
+        <p class="footer-brand-desc">AI-driven industrial intelligence that moves organizations from reactive operations to autonomous, data-driven decision-making. Powered by AriLinc™.</p>
+        <div class="footer-address">
+          <strong>India</strong>
+          Business Square, 801, M.A. Road<br/>
+          Andheri West, Mumbai 400058
+          <strong>USA</strong>
+          2675 Bellingham, Troy, MI 48083
+          <br/><br/>
+          <a href="mailto:info@ariprus.com" style="color:var(--cyan)">info@ariprus.com</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="https://ariprus.com/industrial-intelligence-platform/">AriLinc™ Overview</a></li>
+          <li><a href="https://ariprus.com/agentic-ai/">Agentic AI</a></li>
+          <li><a href="https://ariprus.com/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="https://ariprus.com/chemicals/">Chemicals</a></li>
+          <li><a href="https://ariprus.com/food-beverages/">Food & Beverages</a></li>
+          <li><a href="https://ariprus.com/pharma-life-sciences/">Pharma</a></li>
+          <li><a href="https://ariprus.com/automotive/">Automotive</a></li>
+          <li><a href="https://ariprus.com/metals-mining/">Metals & Mining</a></li>
+          <li><a href="https://ariprus.com/solutions/energy-utility-intelligence/">Energy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="https://ariprus.com/company/about-us/">About Us</a></li>
+          <li><a href="https://ariprus.com/leadership/">Leadership</a></li>
+          <li><a href="https://ariprus.com/company/partners/">Partners</a></li>
+          <li><a href="https://ariprus.com/case-study/">Case Studies</a></li>
+          <li><a href="https://ariprus.com/category/news-events/">Blog</a></li>
+          <li><a href="https://ariprus.com/company/career/">Careers</a></li>
+          <li><a href="https://ariprus.com/contact-us/">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <span class="footer-bottom-text">© 2026 AriPrus Digicon LLC. All rights reserved.</span>
+        <span class="footer-bottom-text" style="margin-left:16px">·</span>
+        <span class="footer-bottom-text" style="margin-left:16px">Industrial Intelligence Platform · AriLinc™</span>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/ariprus-digicon-pvt-ltd/" class="social-btn" aria-label="LinkedIn" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://twitter.com/prafulsatasia" class="social-btn" aria-label="Twitter" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/Ariprus-Digicon-PvtLtd-1862098827449892/" class="social-btn" aria-label="Facebook" target="_blank">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll-triggered fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Count-up animation for impact stats
+const counters = [
+  { id: 'c1', target: 30, suffix: '' },
+  { id: 'c2', target: 20, suffix: '' },
+  { id: 'c3', target: 10, suffix: '' },
+  { id: 'c4', target: 14, suffix: '' },
+];
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      counters.forEach(({ id, target }) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let current = 0;
+        const step = target / 40;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.round(current);
+          if (current >= target) clearInterval(timer);
+        }, 35);
+      });
+      countObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+const impactGrid = document.querySelector('.impact-grid');
+if (impactGrid) countObserver.observe(impactGrid);
+</script>
+</body>
+</html>
